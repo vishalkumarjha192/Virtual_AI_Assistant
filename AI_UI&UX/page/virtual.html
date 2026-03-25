@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Isabel AI — Virtual Avatar</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/virtual.css">
+</head>
+<body>
+
+<div class="bg-layer"></div>
+<div class="bg-grid"></div>
+
+<!-- Floating ambient particles -->
+<div id="particles"></div>
+
+<nav>
+  <div class="logo" onclick="location.href='home.html'">ISABEL</div>
+  <div class="nav-links">
+    <a href="home.html">Home</a>
+    <a href="chat.html">Chat</a>
+    <a href="about.html">About</a>
+    <a href="virtual.html" class="active">Virtual AI</a>
+    <div class="wip-badge"><div class="wip-dot"></div>Working Progress</div>
+  </div>
+</nav>
+
+<div class="main">
+  <!-- ═══ LEFT — Avatar Stage ═══ -->
+  <div class="stage">
+    <!-- Orb -->
+    <div class="orb-stage" id="orbStage">
+      <div class="ring"></div>
+      <div class="ring"></div>
+      <div class="ring"></div>
+      <div class="orb-core" id="orbCore" onclick="toggleSpeak()"></div>
+    </div>
+
+    <!-- Name & status -->
+    <div class="avatar-name">Isabel <span>AI</span></div>
+    <div class="avatar-tagline">Virtual Assistant · Voice Enabled · Always On</div>
+
+    <div class="avatar-status">
+      <div class="status-ring" id="statusRing"></div>
+      <span id="statusLabel">Online &amp; Ready</span>
+    </div>
+
+    <!-- Waveform -->
+    <div class="waveform" id="waveform">
+      <!-- bars injected by JS -->
+    </div>
+
+    <!-- Controls -->
+    <div class="stage-controls">
+      <button class="stage-btn" id="micBtn" onclick="toggleMic()" title="Voice input">
+        <div class="btn-icon">🎙️</div>
+        <span id="micLabel">Listen</span>
+      </button>
+      <button class="stage-btn" id="ttsBtn" onclick="toggleTTS()" title="Voice output">
+        <div class="btn-icon">🔊</div>
+        <span>Voice Out</span>
+      </button>
+      <button class="stage-btn" onclick="greetUser()" title="Make Isabel speak">
+        <div class="btn-icon">✦</div>
+        <span>Greet Me</span>
+      </button>
+      <button class="stage-btn" onclick="location.href='chat.html'" title="Open full chat">
+        <div class="btn-icon">💬</div>
+        <span>Full Chat</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ═══ RIGHT — Panel ═══ -->
+  <div class="panel">
+    <div class="panel-tabs">
+      <div class="ptab active" id="tab-chat" onclick="switchPanel('chat')">💬 Chat</div>
+      <div class="ptab" id="tab-settings" onclick="switchPanel('settings')">⚙️ Settings</div>
+      <div class="ptab" id="tab-roadmap" onclick="switchPanel('roadmap')">🚀 Roadmap</div>
+    </div>
+
+    <!-- Chat panel -->
+    <div class="panel-body" id="panel-chat">
+      <div class="mini-messages" id="miniMessages">
+        <div class="mini-row ai">
+          <div class="mini-av ai">✦</div>
+          <div class="mini-bubble">Hey! I'm Isabel. Click my orb or speak to me. I'm here to help! ✨</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Settings panel -->
+    <div class="panel-body" id="panel-settings" style="display:none">
+      <div class="setting-group">
+        <div class="setting-label">Voice Settings</div>
+        <div class="setting-row">
+          <div>
+            <div class="setting-name">Text to Speech</div>
+            <div class="setting-sub">Isabel speaks replies aloud</div>
+          </div>
+          <div class="toggle" id="tglTTS" onclick="toggleTTSSetting()"></div>
+        </div>
+        <div class="setting-row">
+          <div>
+            <div class="setting-name">Voice Input</div>
+            <div class="setting-sub">Use microphone to chat</div>
+          </div>
+          <div class="toggle on" id="tglMic" onclick="toggleMicSetting()"></div>
+        </div>
+        <div class="setting-row" style="flex-direction:column;align-items:flex-start;gap:8px;border-bottom:none">
+          <div class="setting-name">Voice Selection</div>
+          <select class="voice-selector" id="voiceSelect" onchange="saveVoice()">
+            <option value="">Auto-select best voice</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="setting-group">
+        <div class="setting-label">Avatar</div>
+        <div class="setting-row">
+          <div>
+            <div class="setting-name">Particle Effects</div>
+            <div class="setting-sub">Ambient floating particles</div>
+          </div>
+          <div class="toggle on" id="tglParticles" onclick="toggleParticles()"></div>
+        </div>
+        <div class="setting-row" style="border-bottom:none">
+          <div>
+            <div class="setting-name">Auto-Greet</div>
+            <div class="setting-sub">Isabel says hello on load</div>
+          </div>
+          <div class="toggle on" id="tglGreet" onclick="this.classList.toggle('on')"></div>
+        </div>
+      </div>
+
+      <div class="setting-group">
+        <div class="setting-label">Anthropic API Key</div>
+        <div class="api-section">
+          <label>Paste your API key to enable AI responses</label>
+          <input class="api-inp" id="apiInp" type="password" placeholder="sk-ant-api03-..." />
+          <button class="api-save" onclick="saveApiKey()">Save Key</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Roadmap panel -->
+    <div class="panel-body" id="panel-roadmap" style="display:none">
+      <div class="wip-section">
+        <div class="wip-icon">🛸</div>
+        <div class="wip-title">Virtual Avatar 2.0</div>
+        <div class="wip-desc">Isabel's virtual avatar experience is actively being developed. Here's what's coming and what's already live.</div>
+
+        <div class="progress-item">
+          <div class="progress-label"><span>✅ Animated Orb Avatar</span><span>100%</span></div>
+          <div class="progress-bar"><div class="progress-fill" data-width="100"></div></div>
+        </div>
+        <div class="progress-item">
+          <div class="progress-label"><span>✅ Text-to-Speech</span><span>100%</span></div>
+          <div class="progress-bar"><div class="progress-fill" data-width="100"></div></div>
+        </div>
+        <div class="progress-item">
+          <div class="progress-label"><span>✅ Speech-to-Text</span><span>100%</span></div>
+          <div class="progress-bar"><div class="progress-fill" data-width="100"></div></div>
+        </div>
+        <div class="progress-item">
+          <div class="progress-label"><span>🔄 AI Conversation Engine</span><span>85%</span></div>
+          <div class="progress-bar"><div class="progress-fill" data-width="85"></div></div>
+        </div>
+        <div class="progress-item">
+          <div class="progress-label"><span>🚧 3D Avatar Model</span><span>20%</span></div>
+          <div class="progress-bar"><div class="progress-fill" data-width="20"></div></div>
+        </div>
+        <div class="progress-item">
+          <div class="progress-label"><span>🚧 Lip-Sync Animation</span><span>10%</span></div>
+          <div class="progress-bar"><div class="progress-fill" data-width="10"></div></div>
+        </div>
+        <div class="progress-item">
+          <div class="progress-label"><span>📋 Emotion Recognition</span><span>0%</span></div>
+          <div class="progress-bar"><div class="progress-fill" data-width="0"></div></div>
+        </div>
+      </div>
+
+      <div class="setting-label" style="margin-top:8px">Coming Soon</div>
+      <div class="coming-soon-grid">
+        <div class="cs-item"><div class="cs-icon">🧬</div>3D Face Mesh</div>
+        <div class="cs-item"><div class="cs-icon">👁️</div>Eye Tracking</div>
+        <div class="cs-item"><div class="cs-icon">😊</div>Expressions</div>
+        <div class="cs-item"><div class="cs-icon">🎭</div>Personas</div>
+        <div class="cs-item"><div class="cs-icon">🌍</div>AR Mode</div>
+        <div class="cs-item"><div class="cs-icon">🤝</div>Gestures</div>
+      </div>
+    </div>
+
+    <!-- Mini input (only for chat tab) -->
+    <div class="mini-input-area" id="miniInputArea">
+      <div class="mini-input-row">
+        <textarea class="mini-textarea" id="miniInput" rows="1" placeholder="Talk to Isabel..." onkeydown="handleMiniKey(event)" oninput="miniResize(this)"></textarea>
+        <button class="mini-mic-btn" id="miniMicBtn" onclick="toggleMic()" title="Voice">🎙️</button>
+        <button class="mini-send" id="miniSend" onclick="sendMiniMessage()">➤</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="../script.js/virtual.js"></script>r
+</body>
+</html>
