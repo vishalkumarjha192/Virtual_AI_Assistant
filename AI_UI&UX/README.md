@@ -1,4 +1,4 @@
-# 🚀 Isabel AI — Production Ready UI/UX Chatbot Interface
+# 🚀 Isabel AI — UI/UX Chatbot Interface
 
 <div align="center">
   <img src="https://img.shields.io/badge/Status-Production%20Ready-brightgreen?style=for-the-badge&logo=vercel" alt="Production Ready">
