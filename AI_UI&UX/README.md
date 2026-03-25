@@ -125,14 +125,10 @@ Contributions are welcome! 🎉
 4. Push to the branch (`git push origin feature/your-feature`)
 5. Open a Pull Request
 
-## 📄 License
-This project is licensed under the [MIT License](LICENSE).
-
 ## 👨‍💻 Author
 **Vishal Kumar Jha**
 
 [![GitHub](https://img.shields.io/badge/GitHub-Follow-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/vishalkumarjha192)
-📧 [Gmail](vishalkumarjha192@gmail.com)
 
 ## ⭐ Support
 If you found this project useful:
