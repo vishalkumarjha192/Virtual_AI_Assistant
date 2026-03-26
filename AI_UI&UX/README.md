@@ -1,13 +1,13 @@
 # 🚀 Isabel AI — UI/UX Chatbot Interface
 
-<div align="center">
+<!-- <div align="center">
   <img src="https://img.shields.io/badge/Status-Production%20Ready-brightgreen?style=for-the-badge&logo=vercel" alt="Production Ready">
   <img src="https://img.shields.io/badge/Responsive-✅-blue?style=for-the-badge&logo=react" alt="Responsive">
   <img src="https://img.shields.io/badge/Modern%20UI-Glassmorphism-purple?style=for-the-badge" alt="Modern UI">
 </div>
 
 ## 🌐 Live Demo
-[![Deployed on Netlify](https://img.shields.io/badge/Netlify-Deployed-00C7B7?style=for-the-badge&logo=netlify&logoColor=white)](https://your-live-demo-link.com)
+[![Deployed on Netlify](https://img.shields.io/badge/Netlify-Deployed-00C7B7?style=for-the-badge&logo=netlify&logoColor=white)](https://your-live-demo-link.com) -->
 
 ## 📌 Overview
 **Isabel AI** is a production-ready AI chatbot frontend interface designed with modern UI/UX principles. It provides a seamless, responsive, and visually engaging experience for users interacting with AI systems.
