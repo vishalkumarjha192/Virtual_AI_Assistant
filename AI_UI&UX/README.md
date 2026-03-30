@@ -129,8 +129,8 @@ Contributions are welcome! 🎉
 ---
 
 ## 🎨 Figma Design
-[![View Design]([https://figma.com/your-link](https://www.figma.com/design/vhetXXlqvTVSEOoDmau2Xh/Isabel_AI?t=YGPLxfjcOgsgJDMZ-1))]
-
+## 🎨 Figma Design
+[View Design](https://figma.com/https://www.figma.com/design/vhetXXlqvTVSEOoDmau2Xh/Isabel_AI?t=YGPLxfjcOgsgJDMZ-1)
 
 ---
 ## 👨‍💻 Author
