@@ -125,6 +125,14 @@ Contributions are welcome! 🎉
 4. Push to the branch (`git push origin feature/your-feature`)
 5. Open a Pull Request
 
+
+---
+
+## 🎨 Figma Design
+[View Design]([https://figma.com/your-link](https://www.figma.com/design/vhetXXlqvTVSEOoDmau2Xh/Isabel_AI?t=YGPLxfjcOgsgJDMZ-1))
+
+
+---
 ## 👨‍💻 Author
 **Vishal Kumar Jha**
 
