@@ -3,7 +3,11 @@ import tempfile
 import os
 import json
 from playsound import playsound 
-
+import sounddevice as sd
+import numpy as np
+from faster_whisper import WhisperModel
+import tempfile
+import wave
 
 COHERE_API_KEY = "nBtLPfWMgzuTBoxVnY04pOvJpVRk6waxOQ4bhHf7"   # put your API key here
 
@@ -49,7 +53,7 @@ import requests
 import winsound
 
 ELEVEN_API_KEY = "sk_0ebf5682cff056d49ea6e3f03520fbf253474a016f32286e"
-VOICE_ID = "21m00Tcm4TlvDq8ikWAM"  
+VOICE_ID = "EXAVITQu4vr4xnSDxMaL"
 
 def speak_tts(text):
     try:
@@ -88,16 +92,84 @@ def speak_tts(text):
     except Exception as e:
         print("[ElevenLabs Error]", e)
 
+import sounddevice as sd
+import numpy as np
+from faster_whisper import WhisperModel
+import tempfile
+import wave
 
+model = WhisperModel("base", device="cpu", compute_type="int8_float32")
+
+
+def listen_from_mic():
+    samplerate = 16000
+    duration = 7  # max listen window
+
+    print(" Listening...")
+
+    audio = sd.rec(
+        int(duration * samplerate),
+        samplerate=samplerate,
+        channels=1,
+        dtype="int16"
+    )
+
+    sd.wait()
+
+    # remove silence from beginning
+    audio = np.trim_zeros(audio.flatten(), 'fb')
+
+    if len(audio) == 0:
+        print(" Didn't hear anything")
+        return None
+
+    temp_audio = tempfile.NamedTemporaryFile(delete=False, suffix=".wav")
+
+    with wave.open(temp_audio.name, "wb") as wf:
+        wf.setnchannels(1)
+        wf.setsampwidth(2)
+        wf.setframerate(samplerate)
+        wf.writeframes(audio.tobytes())
+
+    segments, _ = model.transcribe(
+        temp_audio.name,
+        language="en",
+        vad_filter=True
+    )
+
+    text = ""
+
+    for segment in segments:
+        text += segment.text
+
+    text = text.strip()
+
+    if text:
+        print("You:", text)
+        return text
+
+    print(" Couldn't understand")
+    return None
 def main():
-    print("  AI is ready! (type 'exit' to quit)")
+    print(" AI is ready!")
+    print("Press ENTER to speak OR type message")
+    print("Type 'exit' to quit")
 
     while True:
-        user = input("\nYou: ").strip()
+
+        user = input("\nPress ENTER for mic OR type: ").strip()
+
         if user.lower() in {"exit", "quit"}:
             break
 
+        if user == "":
+            user = listen_from_mic()
+
+            if not user:
+                continue
+
         reply = ai_reply(user)
+
         print(f"AI Girl: {reply}")
 
         speak_tts(reply)
