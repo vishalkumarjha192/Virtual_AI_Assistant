@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Isabel AI — About</title>
+  <script src="../auth.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap"
+    rel="stylesheet">
+    <link rel="stylesheet" href="../css/about.css">
+</head>
+
+<body>
+  <div class="orb o1"></div>
+  <div class="orb o2"></div>
+  <nav>
+    <div class="logo" onclick="location.href='home.html'">ISABEL</div>
+    <div class="nav-links">
+      <a href="home.html">Home</a>
+      <a href="chat.html">Chat</a>
+      <a href="about.html" class="active">About</a>
+      <a href="introduction.html">Intro</a>
+    </div>
+  </nav>
+  <div class="page">
+    <div class="hero">
+      <div class="tag">
+        <div class="tag-dot"></div>✦ About Isabel AI
+      </div>
+      <h1>The Future of<br><span>Human-AI</span> Interaction</h1>
+      <p class="hero-sub">Isabel is a next-generation conversational AI with voice capabilities and an animated virtual
+        avatar — designed to feel alive, responsive, and genuinely helpful.</p>
+    </div>
+    <div class="showcase">
+      <div class="sr2"></div>
+      <div class="sr1"></div>
+      <div class="showcase-orb"></div>
+    </div>
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-n">AI</div>
+        <div class="stat-l">Powered Engine</div>
+      </div>
+      <div class="stat">
+        <div class="stat-n">&lt;200ms</div>
+        <div class="stat-l">Response Time</div>
+      </div>
+      <div class="stat">
+        <div class="stat-n">50+</div>
+        <div class="stat-l">Languages</div>
+      </div>
+      <div class="stat">
+        <div class="stat-n">24/7</div>
+        <div class="stat-l">Always On</div>
+      </div>
+    </div>
+    <div class="cards">
+      <div class="card">
+        <div class="c-icon">🤖</div>
+        <div class="c-title">Animated Virtual Avatar</div>
+        <div class="c-desc">Isabel's glowing orb pulses fast when replying, floats gently when idle, and reacts in
+          real-time to every conversation.</div>
+      </div>
+      <div class="card">
+        <div class="c-icon">💬</div>
+        <div class="c-title">Intelligent Chat</div>
+        <div class="c-desc">Natural, context-aware conversations on any topic — coding, writing, Q&A, brainstorming and
+          more.</div>
+      </div>
+      <div class="card">
+        <div class="c-icon">🔊</div>
+        <div class="c-title">Text to Speech</div>
+        <div class="c-desc">Toggle TTS on and every reply is spoken aloud. Isabel's wave animation plays while she
+          speaks.</div>
+      </div>
+      <div class="card">
+        <div class="c-icon">🎙️</div>
+        <div class="c-title">Speech to Text</div>
+        <div class="c-desc">Tap the mic to speak your message. Isabel transcribes your voice and auto-sends it
+          instantly.</div>
+      </div>
+      <div class="card">
+        <div class="c-icon">🧠</div>
+        <div class="c-title">Conversation Memory</div>
+        <div class="c-desc">Isabel remembers your entire conversation in each session for coherent multi-turn dialogues.
+        </div>
+      </div>
+      <div class="card">
+        <div class="c-icon">🔒</div>
+        <div class="c-title">Private & Secure</div>
+        <div class="c-desc">Your data stays private. No tracking, no selling your information. Privacy by design.</div>
+      </div>
+    </div>
+    <div class="built">
+      <div class="built-title">Built With</div>
+      <div class="tech-row">
+        <div class="tech-pill">⚡ Advanced AI</div>
+        <div class="tech-pill">🌐 Web Speech API</div>
+        <div class="tech-pill">🔊 Speech Synthesis</div>
+        <div class="tech-pill">🎨 Pure HTML / CSS</div>
+        <div class="tech-pill">📱 Fully Responsive</div>
+        <div class="tech-pill">🔒 Privacy First</div>
+      </div>
+    </div>
+    <div class="cta">
+      <h2>Ready to meet<br><span>Isabel?</span></h2>
+      <p>Start a conversation and experience the future of AI interaction.</p>
+      <button class="cta-btn" id="ctaBtn" onclick="location.href='signup.html'">🚀 Get Started Free</button>
+      <script>if(window.IsabelAuth&&IsabelAuth.isAuthenticated()){document.getElementById('ctaBtn').textContent='Open Chat →';document.getElementById('ctaBtn').onclick=function(){location.href='chat.html'};}</script>
+    </div>
+  </div>
+</body>
+
+</html>

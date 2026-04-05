@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Isabel AI — Introduction</title>
+  <script src="../auth.js"></script>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="../css/introduction.css">
+</head>
+
+<body>
+
+  <div class="prog" id="prog"></div>
+
+  <nav>
+    <div class="logo" onclick="location.href='home.html'">ISABEL</div>
+    <div class="nav-links">
+      <a href="#hero">Home</a>
+      <a href="#what">About</a>
+      <a href="#features">Features</a>
+      <a href="#how">How It Works</a>
+      <a href="#tech">Tech</a>
+    </div>
+    <div class="nav-cta">
+      <button class="btn-ghost" onclick="location.href='signin.html'">Sign In</button>
+      <button class="btn-fill" onclick="location.href='signup.html'">Get Started</button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="orb o1"></div>
+    <div class="orb o2"></div>
+    <div class="bg-grid"></div>
+    <div class="hero-badge">
+      <div class="badge-dot"></div>✦ Introducing Isabel AI — v1.0
+    </div>
+    <div class="hero-av">
+      <div class="hero-ring hr2"></div>
+      <div class="hero-ring hr1"></div>
+      <div class="hero-orb"></div>
+    </div>
+    <h1 class="hero-title"><span class="grad">Isabel AI</span></h1>
+    <div class="hero-tagline">Your Next-Generation Virtual Assistant</div>
+    <p class="hero-desc">A living, breathing AI that thinks, speaks, and listens — with a stunning animated avatar,
+      real-time voice interaction, and intelligent conversation memory.</p>
+    <div class="hero-btns">
+      <button class="hbtn-p" onclick="location.href='signup.html'">🚀 Get Started Free</button>
+      <button class="hbtn-s" onclick="document.getElementById('what').scrollIntoView({behavior:'smooth'})">Explore
+        ↓</button>
+    </div>
+    <div class="scroll-hint"><span>SCROLL TO EXPLORE</span><span class="s-arrow">↓</span></div>
+  </section>
+
+  <!-- WHAT IS ISABEL -->
+  <section id="what">
+    <div class="orb o1"></div>
+    <div class="what-grid">
+      <div class="reveal">
+        <div class="section-label">✦ What is Isabel AI</div>
+        <h2 class="sec-title">More than just<br>a <span>chatbot</span></h2>
+        <p class="sec-body">Isabel AI is a next-generation virtual assistant that combines advanced AI with voice
+          interaction and an animated avatar — creating an experience that feels genuinely alive.</p>
+        <p class="sec-body">Unlike traditional chatbots, Isabel can <strong style="color:var(--white)">hear you
+            speak</strong>, <strong style="color:var(--white)">respond in voice</strong>, and <strong
+            style="color:var(--white)">react visually</strong> through her glowing orb avatar that pulses, floats, and
+          changes state in real time.</p>
+      </div>
+      <div class="w-cards reveal d1">
+        <div class="w-card">
+          <div class="w-icon">🧠</div>
+          <div class="w-name">AI Powered</div>
+          <div class="w-desc">State-of-the-art language model for human-level conversation on any topic</div>
+        </div>
+        <div class="w-card">
+          <div class="w-icon">🎙️</div>
+          <div class="w-name">Voice First</div>
+          <div class="w-desc">Speak naturally — Isabel transcribes, understands, and speaks back</div>
+        </div>
+        <div class="w-card">
+          <div class="w-icon">🤖</div>
+          <div class="w-name">Living Avatar</div>
+          <div class="w-desc">An animated glowing orb that reacts to every moment of conversation</div>
+        </div>
+        <div class="w-card">
+          <div class="w-icon">⚡</div>
+          <div class="w-name">Real-time</div>
+          <div class="w-desc">Instant responses with typing indicators and smooth animations</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- AVATAR -->
+  <section id="avatar-sec">
+    <div class="orb o1"></div>
+    <div class="section-label reveal">✦ The Avatar</div>
+    <h2
+      style="font-family:'Syne',sans-serif;font-size:clamp(34px,4vw,54px);font-weight:800;color:var(--white);margin-bottom:14px"
+      class="reveal d1">Meet <span
+        style="background:linear-gradient(130deg,var(--violet),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent">Isabel</span>
+    </h2>
+    <p style="font-size:15px;color:var(--muted);max-width:500px;margin:0 auto;line-height:1.75" class="reveal d2">Her
+      glowing orb avatar isn't just decoration — it's alive. It reacts to every state of the conversation in real time.
+    </p>
+
+    <div class="av-stage reveal d2">
+      <div class="av-ring ar3"></div>
+      <div class="av-ring ar2"></div>
+      <div class="av-ring ar1"></div>
+      <div class="av-big"></div>
+      <div class="state-pills">
+        <div class="spill sp-t">
+          <div class="spill-dot"></div>Listening...
+        </div>
+        <div class="spill sp-r">🔊 Speaking</div>
+        <div class="spill sp-b">💬 Thinking</div>
+        <div class="spill sp-l">⚡ Online</div>
+      </div>
+    </div>
+
+    <div class="av-feats reveal d3">
+      <div class="av-feat">
+        <div class="av-feat-icon">💜</div>
+        <div class="av-feat-title">Idle State</div>
+        <div class="av-feat-desc">Gently floats up and down with a soft pulsing glow — peaceful and always present</div>
+      </div>
+      <div class="av-feat">
+        <div class="av-feat-icon">⚡</div>
+        <div class="av-feat-title">Thinking State</div>
+        <div class="av-feat-desc">Pulses rapidly with intensified glow while processing your message</div>
+      </div>
+      <div class="av-feat">
+        <div class="av-feat-icon">🔊</div>
+        <div class="av-feat-title">Speaking State</div>
+        <div class="av-feat-desc">Radiates bright energy and wave animations while reading responses aloud</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section id="how">
+    <div class="orb o1"></div>
+    <div class="section-label reveal" style="display:inline-flex;position:relative;left:50%;transform:translateX(-50%)">
+      ✦ How It Works</div>
+    <h2
+      style="font-family:'Syne',sans-serif;font-size:clamp(34px,4vw,54px);font-weight:800;color:var(--white);margin-bottom:14px"
+      class="reveal d1">Simple. Powerful. <span
+        style="background:linear-gradient(130deg,var(--violet),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent">Magical.</span>
+    </h2>
+    <p class="how-sub reveal d2">Getting started with Isabel takes less than 30 seconds. Here's how it all flows.</p>
+    <div class="steps-row">
+      <div class="step-item reveal d1">
+        <div class="step-num">01</div>
+        <div class="step-icon">📝</div>
+        <div class="step-title">Create Account</div>
+        <div class="step-desc">Sign up free in under 30 seconds with email or Google</div>
+      </div>
+      <div class="step-item reveal d2">
+        <div class="step-num">02</div>
+        <div class="step-icon">💬</div>
+        <div class="step-title">Start Chatting</div>
+        <div class="step-desc">Type your first message and get an instant AI response</div>
+      </div>
+      <div class="step-item reveal d3">
+        <div class="step-num">03</div>
+        <div class="step-icon">🎙️</div>
+        <div class="step-title">Use Your Voice</div>
+        <div class="step-desc">Tap the mic, speak naturally — Isabel listens and responds</div>
+      </div>
+      <div class="step-item reveal d4">
+        <div class="step-num">04</div>
+        <div class="step-icon">🚀</div>
+        <div class="step-title">Experience More</div>
+        <div class="step-desc">Enable TTS, watch the avatar react, explore all features</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section id="features">
+    <div class="feat-header reveal">
+      <div class="section-label" style="display:inline-flex;margin-bottom:16px">✦ Core Features</div>
+      <h2>Everything you need.<br><span>Nothing you don't.</span></h2>
+      <p>Isabel is packed with powerful features designed to make every interaction feel effortless and natural.</p>
+    </div>
+
+    <div class="feat-row reveal">
+      <div class="feat-visual">
+        <div class="demo-chat">
+          <div class="demo-msg ai">
+            <div class="demo-av ai"></div>
+            <div class="demo-bub">Hi! I'm Isabel. How can I help you today? 👋</div>
+          </div>
+          <div class="demo-msg user">
+            <div class="demo-av u"></div>
+            <div class="demo-bub">Can you help me write a story?</div>
+          </div>
+          <div class="demo-msg ai">
+            <div class="demo-av ai"></div>
+            <div class="demo-bub">Absolutely! What genre are you thinking?</div>
+          </div>
+          <div class="demo-msg user">
+            <div class="demo-av u"></div>
+            <div class="demo-bub">Sci-fi, something futuristic</div>
+          </div>
+          <div class="demo-msg ai">
+            <div class="demo-av ai"></div>
+            <div class="demo-bub">
+              <div class="demo-dots"><span></span><span></span><span></span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="section-label" style="display:inline-flex;margin-bottom:14px">💬 AI Chat</div>
+        <h3 class="feat-title">Conversations that<br><span>actually understand you</span></h3>
+        <p class="feat-desc">Isabel can discuss anything — coding, creative writing, analysis, Q&A. She remembers your
+          entire conversation for perfectly coherent dialogue.</p>
+        <div class="feat-points">
+          <div class="feat-point">
+            <div class="fp-check">✓</div>Context-aware multi-turn conversations
+          </div>
+          <div class="feat-point">
+            <div class="fp-check">✓</div>Supports 50+ languages
+          </div>
+          <div class="feat-point">
+            <div class="fp-check">✓</div>Coding, writing, analysis and more
+          </div>
+          <div class="feat-point">
+            <div class="fp-check">✓</div>Chat history sidebar
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="feat-row rev reveal">
+      <div class="feat-visual">
+        <div class="voice-demo">
+          <div class="voice-orb-sm"></div>
+          <div class="waveform">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+          </div>
+          <div class="voice-label">Isabel is speaking...</div>
+        </div>
+      </div>
+      <div>
+        <div class="section-label" style="display:inline-flex;margin-bottom:14px">🔊 Text to Speech</div>
+        <h3 class="feat-title">Hear Isabel<br><span>come alive</span></h3>
+        <p class="feat-desc">Toggle TTS on and every response gets read aloud. Watch the waveform animate and the avatar
+          pulse as Isabel speaks directly to you.</p>
+        <div class="feat-points">
+          <div class="feat-point">
+            <div class="fp-check">✓</div>Real-time speech synthesis
+          </div>
+          <div class="feat-point">
+            <div class="fp-check">✓</div>Animated wave bars while speaking
+          </div>
+          <div class="feat-point">
+            <div class="fp-check">✓</div>Stop button for instant control
+          </div>
+          <div class="feat-point">
+            <div class="fp-check">✓</div>Avatar reacts in speaking state
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="feat-row reveal">
+      <div class="feat-visual">
+        <div class="stt-demo">
+          <div class="stt-wrap">
+            <div class="stt-p"></div>
+            <div class="stt-p stt-p2"></div>
+            <div class="stt-mic">🎙️</div>
+          </div>
+          <div class="transcript">
+            <span style="color:var(--muted);font-size:11px">Transcribing:</span>
+            <span>"Tell me about the weather today"</span>
+            <div class="t-cursor"></div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="section-label" style="display:inline-flex;margin-bottom:14px">🎙️ Speech to Text</div>
+        <h3 class="feat-title">Just speak,<br><span>Isabel listens</span></h3>
+        <p class="feat-desc">Tap the mic and speak naturally. Isabel transcribes your voice in real-time, then
+          auto-sends when you stop speaking.</p>
+        <div class="feat-points">
+          <div class="feat-point">
+            <div class="fp-check">✓</div>Real-time voice transcription
+          </div>
+          <div class="feat-point">
+            <div class="fp-check">✓</div>Auto-sends after you finish speaking
+          </div>
+          <div class="feat-point">
+            <div class="fp-check">✓</div>Visual mic pulse animation
+          </div>
+          <div class="feat-point">
+            <div class="fp-check">✓</div>Works with natural speech
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section id="stats">
+    <div style="text-align:center;margin-bottom:48px" class="reveal">
+      <div class="section-label" style="display:inline-flex;margin-bottom:16px">✦ By the Numbers</div>
+      <h2 style="font-family:'Syne',sans-serif;font-size:clamp(30px,3.5vw,46px);font-weight:800;color:var(--white)">
+        Built for <span
+          style="background:linear-gradient(130deg,var(--violet),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent">performance</span>
+      </h2>
+    </div>
+    <div class="stats-inner reveal d1">
+      <div class="stat-block">
+        <div class="stat-n">AI</div>
+        <div class="stat-l">Powered Engine</div>
+        <div class="stat-s">Latest language model</div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-n">&lt;200ms</div>
+        <div class="stat-l">Response Time</div>
+        <div class="stat-s">Near-instant replies</div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-n">50+</div>
+        <div class="stat-l">Languages</div>
+        <div class="stat-s">Voice & text both</div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-n">100%</div>
+        <div class="stat-l">Private</div>
+        <div class="stat-s">Your data stays yours</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TECH -->
+  <section id="tech">
+    <div class="section-label reveal" style="display:inline-flex;margin-bottom:16px">✦ Built With</div>
+    <h2 class="tech-title reveal d1">Powered by the<br><span>best in class</span></h2>
+    <p class="tech-sub reveal d2">Isabel is built on carefully chosen technologies that deliver the best possible
+      experience.</p>
+    <div class="tech-grid reveal d2">
+      <div class="tech-pill">🤖 Advanced AI</div>
+      <div class="tech-pill">🎤 Web Speech API</div>
+      <div class="tech-pill">🔊 Speech Synthesis</div>
+      <div class="tech-pill">🎨 Pure HTML / CSS</div>
+      <div class="tech-pill">⚡ Vanilla JavaScript</div>
+      <div class="tech-pill">🌐 Google Fonts</div>
+      <div class="tech-pill">📱 Fully Responsive</div>
+      <div class="tech-pill">🔒 Privacy First</div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section id="cta">
+    <div class="orb o1"></div>
+    <div class="orb o2"></div>
+    <div class="cta-wrap reveal">
+      <div class="cta-ring cr2"></div>
+      <div class="cta-ring cr1"></div>
+      <div class="cta-orb"></div>
+    </div>
+    <div class="cta-label reveal d1">Ready when you are</div>
+    <h2 class="cta-title reveal d1">Meet<br><span>Isabel.</span></h2>
+    <p class="cta-desc reveal d2">Start your first conversation today. No complexity needed. Just sign up and experience
+      the future of AI interaction.</p>
+    <div class="cta-btns reveal d3">
+      <button class="cta-main" onclick="location.href='signup.html'">🚀 Create Free Account</button>
+      <button class="cta-sec" onclick="location.href='chat.html'">Try the Chat UI</button>
+    </div>
+  </section>
+
+  <footer>
+    <div class="foot-logo">ISABEL</div>
+    <div class="foot-links">
+      <a href="home.html">Home</a>
+      <a href="chat.html">Chat</a>
+      <a href="about.html">About</a>
+      <a href="signin.html">Sign In</a>
+      <a href="signup.html">Sign Up</a>
+    </div>
+    <div class="foot-copy">© 2025 Isabel AI. All rights reserved.</div>
+  </footer>
+
+  <script>
+    window.addEventListener('scroll', () => {
+      const pct = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+      document.getElementById('prog').style.width = pct + '%';
+    });
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target) } });
+    }, { threshold: .12 });
+    document.querySelectorAll('.reveal').forEach(r => obs.observe(r));
+  </script>
+</body>
+
+</html>

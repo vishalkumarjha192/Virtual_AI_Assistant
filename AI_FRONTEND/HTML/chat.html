@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Isabel AI — Chat</title>
+  <script src="../auth.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="../css/chat.css">
+</head>
+
+<body>
+  <nav>
+    <div class="logo" onclick="location.href='home.html'">ISABEL</div>
+    <div class="nav-links">
+      <a href="./home.html">Home</a>
+      <a href="./chat.html" class="active">Chat</a>
+      <a href="./about.html">About</a>
+      <a href="Virtual.html">🤖 Virtual AI</a>
+      <a href="./support.html" class="active">
+        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 12a10 10 0 1 0-20 0" />
+          <path d="M2 12v5a2 2 0 0 0 2 2h2v-7H4a2 2 0 0 0-2 2z" />
+          <path d="M22 12v5a2 2 0 0 1-2 2h-2v-7h2a2 2 0 0 1 2 2z" />
+          <path d="M12 20a2 2 0 0 0 2-2" />
+        </svg>
+      </a>
+    </div>
+    <div class="nav-user" id="navUser"></div>
+  </nav>
+
+  <div id="apiBanner" style="display:none"></div>
+
+  <div class="layout">
+    <aside class="sidebar">
+      <button class="new-btn" onclick="startNewChat()">✦ New Chat</button>
+      <div class="sec-ttl">Recent</div>
+      <div id="histList"></div>
+      <div class="sidebar-footer">
+        <div class="user-pill" id="userPill"></div>
+      </div>
+    </aside>
+    <main class="chat-main">
+      <div class="av-panel">
+        <div class="av-mini" id="avMini"></div>
+        <div class="av-info">
+          <h3>Isabel AI</h3>
+          <div class="av-status" id="avStatus">
+            <div class="g-dot"></div><span id="statusText">Active now</span>
+          </div>
+        </div>
+        <div class="av-ctrls">
+          <div class="ctrl" id="ttsCtrl" title="Toggle TTS" onclick="toggleTTS()">🔊</div>
+          <div class="ctrl" title="Clear chat" onclick="clearCurrentChat()">🗑️</div>
+          <div class="ctrl" title="Sign out" onclick="IsabelAuth.signOut()">🚪</div>
+        </div>
+      </div>
+      <div class="tts-bar" id="ttsBar">
+        <div class="waves"><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+        </div>
+        Isabel is speaking...
+        <span style="margin-left:auto;cursor:pointer;color:var(--muted)" onclick="stopTTS()">⏹</span>
+      </div>
+      <div class="messages" id="messages">
+        <div class="welcome" id="welcomeScreen">
+          <div class="welcome-orb"></div>
+          <h2 id="welcomeName">Hello! I'm Isabel</h2>
+          <p>Your intelligent AI assistant with voice capabilities. Ask me anything!</p>
+          <div class="suggestions">
+            <div class="sug" onclick="useSuggestion(this)">✨ What can you do?</div>
+            <div class="sug" onclick="useSuggestion(this)">💡 Help me brainstorm ideas</div>
+            <div class="sug" onclick="useSuggestion(this)">📝 Write something creative</div>
+            <div class="sug" onclick="useSuggestion(this)">🔬 Explain a concept</div>
+          </div>
+        </div>
+      </div>
+      <!-- input -->
+      <div class="input-area">
+        <div class="input-row">
+          <textarea id="msgInput" rows="1" placeholder="Message Isabel..." onkeydown="handleKey(event)"
+            oninput="autoResize(this)"></textarea>
+          <div style="display:flex;gap:6px">
+            <button class="icon-btn" id="micBtn" title="Voice input" onclick="toggleMic()">🎙️</button>
+            <button class="send" id="sendBtn" onclick="sendMessage()">➤</button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    // ─── Auth Gate ───────────────────────────────────────────
+    if (!IsabelAuth.requireAuth('signin.html')) { throw new Error('Not authenticated'); }
+
+    const user = IsabelAuth.getUser();
+    let currentChatId = null;
+    let ttsEnabled = false;
+    let micActive = false;
+    let recognition = null;
+    let currentUtterance = null;
+
+    // ─── Cohere Config ───────────────────────────────────────
+    const COHERE_API_KEY = 'GmhnIyr2lgvWbU5h5cgs9280ZuYA4wBUZ5Eikg1e';
+    const COHERE_API_URL = 'https://api.cohere.com/v2/chat';
+    const COHERE_MODEL = 'command-r-plus';   // best chat model on Cohere v2
+
+    const ISABEL_SYSTEM_PROMPT =
+      `You are Isabel, a warm, intelligent, and helpful AI assistant. ` +
+      `You speak in a friendly yet professional tone. ` +
+      `You give clear, concise answers and are always eager to help with any topic — ` +
+      `from creative writing and brainstorming to technical explanations. ` +
+      `When you don't know something, you say so honestly. ` +
+      `The user's name is ${(user?.firstName || 'there')}.`;
+
+    // ─── UI Setup ────────────────────────────────────────────
+    const initials = (user.firstName?.[0] || '') + (user.lastName?.[0] || '');
+    document.getElementById('navUser').innerHTML = `
+      <div class="user-av-sm">${initials}</div>
+      <span class="nav-name">${user.firstName}</span>
+      <button class="signout-btn" onclick="IsabelAuth.signOut()">Sign out</button>
+    `;
+    document.getElementById('userPill').innerHTML = `
+      <div class="user-av">${initials}</div>
+      <div>
+        <div class="user-name">${user.firstName} ${user.lastName}</div>
+        <div class="user-role">${user.plan} Plan</div>
+      </div>
+    `;
+    document.getElementById('welcomeName').textContent = `Hello, ${user.firstName}! I'm Isabel`;
+
+    // ─── Chat History ────────────────────────────────────────
+    function renderHistory() {
+      const list = document.getElementById('histList');
+      const chats = IsabelAuth.getChats();
+      if (!chats.length) { list.innerHTML = '<div class="no-history">No chats yet</div>'; return; }
+      list.innerHTML = chats.map(c => `
+        <div class="hist-item ${c.id === currentChatId ? 'active' : ''}" onclick="loadChat('${c.id}')">
+          <span class="hist-title">${escHtml(c.title)}</span>
+          <span class="hist-del" onclick="event.stopPropagation();deleteChat('${c.id}')">×</span>
+        </div>
+      `).join('');
+    }
+
+    function escHtml(s) {
+      return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+
+    function deleteChat(id) {
+      IsabelAuth.deleteChat(id);
+      if (currentChatId === id) { currentChatId = null; showWelcome(); }
+      renderHistory();
+    }
+
+    function startNewChat() {
+      currentChatId = null;
+      showWelcome();
+      renderHistory();
+    }
+
+    function showWelcome() {
+      document.getElementById('messages').innerHTML = `
+        <div class="welcome" id="welcomeScreen">
+          <div class="welcome-orb"></div>
+          <h2>Hello, ${user.firstName}! I'm Isabel</h2>
+          <p>Your intelligent AI assistant with voice capabilities. Ask me anything!</p>
+          <div class="suggestions">
+            <div class="sug" onclick="useSuggestion(this)">✨ What can you do?</div>
+            <div class="sug" onclick="useSuggestion(this)">💡 Help me brainstorm ideas</div>
+            <div class="sug" onclick="useSuggestion(this)">📝 Write something creative</div>
+            <div class="sug" onclick="useSuggestion(this)">🔬 Explain a concept</div>
+          </div>
+        </div>`;
+    }
+
+    function loadChat(id) {
+      const chat = IsabelAuth.getChat(id);
+      if (!chat) return;
+      currentChatId = id;
+      const msgs = document.getElementById('messages');
+      msgs.innerHTML = '';
+      chat.messages.forEach(m => appendMessage(m.role, m.content, false));
+      msgs.scrollTop = msgs.scrollHeight;
+      renderHistory();
+    }
+
+    // ─── Message Rendering ───────────────────────────────────
+    function appendMessage(role, content, save = true) {
+      document.getElementById('welcomeScreen')?.remove();
+
+      const msgs = document.getElementById('messages');
+      const ts = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      const isAI = role === 'assistant';
+
+      const row = document.createElement('div');
+      row.className = `row ${isAI ? 'ai' : 'user'}`;
+      row.innerHTML = `
+        <div class="av ${isAI ? 'ai' : 'u'}">${isAI ? '✦' : (initials || '👤')}</div>
+        <div>
+          <div class="bubble">${formatContent(content)}</div>
+          <div class="ts">${ts}</div>
+        </div>
+      `;
+      msgs.appendChild(row);
+      msgs.scrollTop = msgs.scrollHeight;
+
+      if (save && currentChatId) {
+        IsabelAuth.saveMessage(currentChatId, role, content);
+        renderHistory();
+      }
+    }
+
+    function formatContent(text) {
+      return text
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\*(.*?)\*/g, '<em>$1</em>')
+        .replace(/`([^`]+)`/g, '<code style="background:rgba(124,77,255,.15);padding:2px 5px;border-radius:4px;font-size:12px">$1</code>')
+        .replace(/\n/g, '<br>');
+    }
+
+    function showTyping() {
+      document.getElementById('welcomeScreen')?.remove();
+      const msgs = document.getElementById('messages');
+      const el = document.createElement('div');
+      el.className = 'row ai';
+      el.id = 'typingRow';
+      el.innerHTML = `<div class="av ai">✦</div><div><div class="bubble"><div class="dots"><span></span><span></span><span></span></div></div></div>`;
+      msgs.appendChild(el);
+      msgs.scrollTop = msgs.scrollHeight;
+      setThinking(true);
+    }
+
+    function removeTyping() {
+      document.getElementById('typingRow')?.remove();
+      setThinking(false);
+    }
+
+    function setThinking(v) {
+      document.getElementById('avMini').className = 'av-mini' + (v ? ' thinking' : '');
+      const st = document.getElementById('avStatus');
+      const txt = document.getElementById('statusText');
+      st.className = 'av-status' + (v ? ' thinking' : '');
+      txt.textContent = v ? 'Thinking...' : 'Active now';
+    }
+
+    // ─── Send Message (Cohere v2) ────────────────────────────
+    async function sendMessage() {
+      const input = document.getElementById('msgInput');
+      const text = input.value.trim();
+      if (!text) return;
+      input.value = '';
+      autoResize(input);
+
+      // Create chat session if needed
+      if (!currentChatId) {
+        const chat = IsabelAuth.newChat(text.slice(0, 40));
+        currentChatId = chat.id;
+        renderHistory();
+      }
+
+      appendMessage('user', text);
+      document.getElementById('sendBtn').disabled = true;
+      showTyping();
+
+      // Build message history for context (last 20 messages)
+      const chat = IsabelAuth.getChat(currentChatId);
+      const history = (chat?.messages || []).slice(-20);
+
+      // Cohere v2 message format:
+      // [{ role: "system"|"user"|"assistant", content: "..." }]
+      const cohereMessages = [
+        { role: 'system', content: ISABEL_SYSTEM_PROMPT },
+        ...history.map(m => ({
+          role: m.role === 'assistant' ? 'assistant' : 'user',
+          content: m.content
+        }))
+      ];
+
+      try {
+        const res = await fetch(COHERE_API_URL, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${COHERE_API_KEY}`,
+            'X-Client-Name': 'isabel-ai'
+          },
+          body: JSON.stringify({
+            model: COHERE_MODEL,
+            messages: cohereMessages,
+            max_tokens: 1024,
+            temperature: 0.7
+          })
+        });
+
+        removeTyping();
+
+        if (!res.ok) {
+          // Try to parse error details
+          let errMsg = `HTTP ${res.status}`;
+          try {
+            const errData = await res.json();
+            errMsg = errData?.message || errData?.error?.message || errMsg;
+          } catch (_) { }
+          appendMessage('assistant', `⚠️ Cohere API error: ${errMsg}`);
+          document.getElementById('sendBtn').disabled = false;
+          return;
+        }
+
+        const data = await res.json();
+
+        // Cohere v2 response shape:
+        // data.message.content = [{ type: "text", text: "..." }]
+        const content = data?.message?.content;
+        let reply = '';
+
+        if (Array.isArray(content)) {
+          reply = content
+            .filter(b => b.type === 'text')
+            .map(b => b.text)
+            .join('');
+        } else if (typeof content === 'string') {
+          // Fallback in case shape changes
+          reply = content;
+        }
+
+        reply = reply.trim() || 'I didn\'t have a response for that. Could you rephrase?';
+        appendMessage('assistant', reply);
+        if (ttsEnabled) speakText(reply);
+
+      } catch (e) {
+        removeTyping();
+        console.error('Isabel fetch error:', e);
+        appendMessage('assistant', '⚠️ Network error. Please check your connection and try again.');
+      }
+
+      document.getElementById('sendBtn').disabled = false;
+      document.getElementById('msgInput').focus();
+    }
+
+    function useSuggestion(el) {
+      document.getElementById('msgInput').value = el.textContent.replace(/^[^\w]+/, '').trim();
+      sendMessage();
+    }
+
+    function handleKey(e) {
+      if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
+    }
+
+    function autoResize(el) {
+      el.style.height = 'auto';
+      el.style.height = Math.min(el.scrollHeight, 110) + 'px';
+    }
+
+    function clearCurrentChat() {
+      if (!currentChatId) return;
+      if (!confirm('Clear this chat?')) return;
+      IsabelAuth.deleteChat(currentChatId);
+      currentChatId = null;
+      showWelcome();
+      renderHistory();
+    }
+
+    // ─── TTS ─────────────────────────────────────────────────
+    function toggleTTS() {
+      ttsEnabled = !ttsEnabled;
+      document.getElementById('ttsCtrl').classList.toggle('on', ttsEnabled);
+      if (!ttsEnabled) stopTTS();
+      showToast(ttsEnabled ? '🔊 Text-to-speech on' : '🔇 Text-to-speech off');
+    }
+
+    function speakText(text) {
+      if (!window.speechSynthesis) return;
+      stopTTS();
+      const plain = text.replace(/<[^>]+>/g, '').replace(/[*_`]/g, '');
+      currentUtterance = new SpeechSynthesisUtterance(plain);
+      currentUtterance.rate = 1.05;
+      currentUtterance.pitch = 1.1;
+      currentUtterance.onstart = () => document.getElementById('ttsBar').classList.add('show');
+      currentUtterance.onend = () => document.getElementById('ttsBar').classList.remove('show');
+      window.speechSynthesis.speak(currentUtterance);
+    }
+
+    function stopTTS() {
+      window.speechSynthesis?.cancel();
+      document.getElementById('ttsBar').classList.remove('show');
+    }
+
+    // ─── STT ─────────────────────────────────────────────────
+    function toggleMic() {
+      if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+        showToast('Speech recognition not supported in this browser'); return;
+      }
+      if (micActive) { recognition?.stop(); return; }
+
+      const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+      recognition = new SR();
+      recognition.continuous = false;
+      recognition.interimResults = true;
+      recognition.lang = 'en-US';
+
+      recognition.onstart = () => {
+        micActive = true;
+        document.getElementById('micBtn').classList.add('mic-on');
+        document.getElementById('msgInput').placeholder = 'Listening...';
+      };
+      recognition.onresult = (e) => {
+        const transcript = Array.from(e.results).map(r => r[0].transcript).join('');
+        document.getElementById('msgInput').value = transcript;
+        if (e.results[0].isFinal) { sendMessage(); }
+      };
+      recognition.onend = () => {
+        micActive = false;
+        document.getElementById('micBtn').classList.remove('mic-on');
+        document.getElementById('msgInput').placeholder = 'Message Isabel...';
+      };
+      recognition.onerror = () => recognition.onend();
+      recognition.start();
+    }
+
+    // ─── Toast ───────────────────────────────────────────────
+    function showToast(msg) {
+      const t = document.createElement('div');
+      t.style.cssText = 'position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px 20px;font-size:13px;color:var(--text);z-index:999;animation:up .3s ease both';
+      t.textContent = msg;
+      document.body.appendChild(t);
+      setTimeout(() => t.remove(), 2500);
+    }
+
+    // ─── Init ────────────────────────────────────────────────
+    renderHistory();
+    const chats = IsabelAuth.getChats();
+    if (chats.length) { loadChat(chats[0].id); }
+    document.getElementById('msgInput').focus();
+
+    const style = document.createElement('style');
+    style.textContent = '@keyframes up{from{opacity:0;transform:translateY(24px) translateX(-50%)}to{opacity:1;transform:translateY(0) translateX(-50%)}}';
+    document.head.appendChild(style);
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Isabel AI — Home</title>
+  <script src="../auth.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="../css/home.css">
+</head>
+
+<body>
+  <div class="orb o1"></div>
+  <div class="orb o2"></div>
+  <div class="orb o3"></div>
+  <div class="bg-grid"></div>
+  <nav>
+    <div class="logo">ISABEL</div>
+    <div class="nav-links">
+      <a href="home.html" class="active">Home</a>
+      <a href="chat.html">Chat</a>
+      <a href="about.html">About</a>
+      <a href="introduction.html">Intro</a>
+    </div>
+    <div class="nav-actions" id="navActions">
+      <!-- populated by JS -->
+    </div>
+  </nav>
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="hero-left">
+        <div class="badge">
+          <div class="badge-dot"></div>✦ Introducing Isabel AI
+        </div>
+        <h1><span class="w">Your Next-Gen</span><span class="c">Virtual Assistant</span></h1>
+        <p class="sub" id="heroSub">Experience intelligent conversations, voice interaction, and futuristic AI
+          assistance with a living, breathing virtual avatar.</p>
+        <div class="btns" id="heroBtns">
+          <!-- populated by JS -->
+        </div>
+      </div>
+      <div class="av-card">
+        <div class="ring r3"></div>
+        <div class="ring r2"></div>
+        <div class="ring r1"></div>
+        <div class="orb-main"></div>
+        <div class="card-status">
+          <div class="s-dot"></div>Isabel is online
+        </div>
+      </div>
+    </div>
+  </section>
+  <div class="strip">
+    <div class="f-item">
+      <div class="f-icon">💬</div>AI Chat
+    </div>
+    <div class="f-item">
+      <div class="f-icon">🔊</div>Text to Speech
+    </div>
+    <div class="f-item">
+      <div class="f-icon">🎙️</div>Speech to Text
+    </div>
+    <div class="f-item">
+      <div class="f-icon">🤖</div>Virtual Avatar
+    </div>
+    <div class="f-item">
+      <div class="f-icon">⚡</div>Real-time Responses
+    </div>
+    <div class="f-item">
+      <div class="f-icon">🧠</div>Smart Memory
+    </div>
+  </div>
+  <script>
+    const user = IsabelAuth.getUser();
+    const navActions = document.getElementById('navActions');
+    const heroBtns = document.getElementById('heroBtns');
+
+    if (user) {
+      const initials = (user.firstName?.[0] || '') + (user.lastName?.[0] || '');
+      navActions.innerHTML = `
+        <div class="user-greeting">
+          <div class="user-av-sm">${initials || '👤'}</div>
+          <span>Hi, ${user.firstName || 'there'}!</span>
+        </div>
+        <button class="btn-f" onclick="location.href='chat.html'">Open Chat</button>
+        <span class="signout-link" onclick="IsabelAuth.signOut()">Sign out</span>
+      `;
+      heroBtns.innerHTML = `
+        <button class="btn-p" onclick="location.href='chat.html'">Open Chat</button>
+        <button class="btn-s" onclick="location.href='introduction.html'">Learn More</button>
+      `;
+    } else {
+      navActions.innerHTML = `
+        <button class="btn-o" onclick="location.href='signin.html'">Sign In</button>
+        <button class="btn-f" onclick="location.href='signup.html'">Sign Up</button>
+      `;
+      heroBtns.innerHTML = `
+        <button class="btn-p" onclick="location.href='signup.html'">Get Started Free</button>
+        <button class="btn-s" onclick="location.href='introduction.html'">Learn More</button>
+      `;
+    }
+  </script>
+</body>
+
+</html>
