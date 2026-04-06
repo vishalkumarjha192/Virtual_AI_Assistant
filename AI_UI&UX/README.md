@@ -96,13 +96,13 @@ Transform into a **fully functional AI chatbot**:
 - No database persistence
 
 ## 🛣️ Roadmap
-- [ ] Connect AI API (OpenAI/Gemini/Claude)
-- [ ] Add Node.js + Express backend
-- [ ] Implement authentication system
-- [ ] Store chat history (MongoDB)
-- [ ] Mobile-first responsiveness
-- [ ] Dark/light theme toggle
-- [ ] Performance optimization
+- [ ✅ ] Connect AI API (OpenAI/Gemini/Claude/groq) => groq
+- [ ✅ ] Add Node.js + Express backend
+- [ ✅ ] Implement authentication system
+- [ ✅ ] Store chat history (MongoDB)
+- [ ✅ ] Mobile-first responsiveness
+- [ ✅ ] Dark/light theme toggle
+- [ ✅ ] Performance optimization
 
 ## 📸 Screenshots
 
